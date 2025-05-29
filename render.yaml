@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: snapmarkt-server
+    env: node
+    buildCommand: npm install
+    startCommand: node index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+    buildFilter:
+      paths:
+      - server/**/* 
