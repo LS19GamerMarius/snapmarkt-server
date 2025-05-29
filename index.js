@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const scraper = require('./services/scrapers');
+const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -34,6 +35,17 @@ app.get('/api/products', async (req, res) => {
     res.status(500).json({ error: 'Failed to search products' });
   }
 });
+
+// Serve static files in production
+if (process.env.NODE_ENV === 'production') {
+  // Serve any static files
+  app.use(express.static(path.join(__dirname, '../build')));
+
+  // Handle React routing, return all requests to React app
+  app.get('*', function(req, res) {
+    res.sendFile(path.join(__dirname, '../build', 'index.html'));
+  });
+}
 
 // Error handling middleware
 app.use((err, req, res, next) => {
