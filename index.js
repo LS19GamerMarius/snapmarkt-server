@@ -18,6 +18,11 @@ process.on('SIGTERM', async () => {
   process.exit(0);
 });
 
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok' });
+});
+
 // Routes
 app.get('/api/products', async (req, res) => {
   try {
